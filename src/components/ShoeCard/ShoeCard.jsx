@@ -36,6 +36,9 @@ const ShoeCard = ({
       <Wrapper>
         <ImageWrapper>
           <Image alt="" src={imageSrc} />
+          <Flag variant={variant}>
+            {variant}
+          </Flag>
         </ImageWrapper>
         <Spacer size={12} />
         <Row>
@@ -54,6 +57,26 @@ const Link = styled.a`
   text-decoration: none;
   color: inherit;
   flex: 1 1 340px;
+`;
+
+const Flag = styled.span`
+  background-color: ${(props) => {
+    if (props.variant === "on-sale") {
+      return COLORS.primary;
+    } else if (props.variant === "new-release") {
+      return COLORS.secondary;
+    } else {
+      return "transparent";
+    }
+  }};
+  font-weight: 700;
+  padding: 9px;
+  border-radius: 2px;
+  color: ${COLORS.white};
+  display: ${(props) => props.variant === 'default' && 'none'};
+  position: absolute;
+  top: 12px;
+  right: -8px;
 `;
 
 const Wrapper = styled.article`
