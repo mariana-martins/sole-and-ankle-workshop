@@ -31,22 +31,42 @@ const ShoeCard = ({
       ? 'new-release'
       : 'default'
 
+      const flagLabel = (variant) => {
+        if (variant === "on-sale"){
+          return "Sale"
+        } else if (variant === "new-release") {
+          return "Just released!";
+        } else {
+          return null;
+        }
+
+      };
+
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
           <Image alt="" src={imageSrc} />
-          <Flag variant={variant}>
-            {variant}
-          </Flag>
+          <Flag variant={variant}>{flagLabel(variant)}</Flag>
         </ImageWrapper>
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          <Price
+            style={{
+              "--color": variant === "on-sale" ? COLORS.gray[700] : undefined,
+              "--text-decoration":
+                variant === "on-sale" ? "line-through" : undefined,
+            }}
+          >
+            {formatPrice(price)}
+          </Price>
         </Row>
         <Row>
-          <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
+          <ColorInfo>{pluralize("Color", numOfColors)}</ColorInfo>
+          {variant === "on-sale" ? (
+            <SalePrice>{formatPrice(salePrice)}</SalePrice>
+          ) : undefined}
         </Row>
       </Wrapper>
     </Link>
@@ -69,19 +89,19 @@ const Flag = styled.span`
       return "transparent";
     }
   }};
-  font-weight: 700;
-  padding: 9px;
+  font-weight: ${WEIGHTS.bold};
+  padding: 0 10px;
   border-radius: 2px;
   color: ${COLORS.white};
-  display: ${(props) => props.variant === 'default' && 'none'};
   position: absolute;
   top: 12px;
-  right: -8px;
+  right: -4px;
+  line-height: 32px;
+  font-size: ${14 / 16}rem;
 `;
 
 const Wrapper = styled.article`
   max-width: 340px;
-  flex-wrap: nowrap;
 `;
 
 const ImageWrapper = styled.div`
@@ -90,11 +110,13 @@ const ImageWrapper = styled.div`
 
 const Image = styled.img`
   width: 100%;
+  border-radius: 16px 16px 4px 4px;
 `;
 
 const Row = styled.div`
-  font-size: 1rem;
   display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
 `;
 
 const Name = styled.h3`
@@ -103,7 +125,8 @@ const Name = styled.h3`
   `;
 
 const Price = styled.span`
-  margin-left: auto;
+  color: var(--color);
+  text-decoration: var(--text-decoration);
 `;
 
 const ColorInfo = styled.p`

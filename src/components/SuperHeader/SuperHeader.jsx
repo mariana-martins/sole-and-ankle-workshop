@@ -23,13 +23,15 @@ const SuperHeader = () => {
 };
 
 const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 24px;
   font-size: 0.875rem;
   color: ${COLORS.gray[300]};
   background-color: ${COLORS.gray[900]};
-  display: flex;
-  padding: 12px 32px;
-  align-items: center;
-  gap: 24px;
+  padding-left: 32px;
+  padding-right: 32px;
+  min-height: 40px;
 `;
 
 const MarketingMessage = styled.span`
